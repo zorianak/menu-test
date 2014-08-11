@@ -77,9 +77,9 @@ function addMenuItems(theList, menuItems, parentNode, i) {
                     listItem.appendChild(a);
                     theList.appendChild(listItem);
                 }
+            addMenuItems(theList, theItemObj, theItemName, i);
             }
             
-            addMenuItems(theList, theItemObj, theItemName, i);
         }
     }
 }
