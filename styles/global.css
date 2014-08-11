@@ -1,0 +1,35 @@
+body {
+    font-family: Helvetica, Arial, 'sans-serif';
+}
+
+ul {
+    list-style-type: none;
+    width: 150px;
+}
+
+ul li {
+    display: block;
+    background: #111010;
+    border: 1px solid #8e4209;
+    height: 20px;
+    padding: 3px;
+}
+
+ul li ul {
+    display: none;
+    margin-left: 106px;
+    margin-top: -23px;
+}
+
+ul li:hover ul {
+    display: block;
+}
+
+a {
+    color: #8e4209;
+    text-decoration:none;
+    display: block;
+    width: 100%
+}
+
+a:hover {color: #fff;}

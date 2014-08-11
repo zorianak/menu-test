@@ -59,11 +59,12 @@ function addMenuItems(theList, menuItems, parentNode, i, isSub) {
             
             // test if it's a subitem
             if(isSub) {
-                alert(theItemName + ' qq');
+//                alert(theItemName + ' qq');
                 // we're in a subitem!
                 
+                // it's going to grab subitem first, we need to iterate past that.
                 if(theItemName === 'sub') {
-                    alert("rawr");
+//                    alert("rawr");
                     
                     // It's a subitem, so we want to make a link for the parent item,
                     // and put that + the UL of the subitems into a list
@@ -83,6 +84,7 @@ function addMenuItems(theList, menuItems, parentNode, i, isSub) {
                     
                     // now we want to append its children...
                     addMenuItems(subList, theItemObj, theItemName, i, true);
+                    
                 }
             } else {
                 // we aren't in a subitem
@@ -108,6 +110,9 @@ function addMenuItems(theList, menuItems, parentNode, i, isSub) {
                 // if it has a sublist, then we need to handle that differently.
 //                alert('theItemName ' + theItemName);
                     addMenuItems(subList, theItemObj, theItemName, i+1, true);
+                    
+                // add in the sub items
+                listItem.appendChild(subList);
                 
                 } else {
                     // test if it's undefined or not
