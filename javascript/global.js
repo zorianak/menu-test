@@ -24,13 +24,14 @@ function createList(menuItems) {
     // two functions (because callback hell). One will handle
     // sublists, the other will handle the main list.
     var i = 0;
-    addMenuItems(theList, menuItems, "", i);
+    addMenuItems(theList, menuItems, "", i, false);
     
     theList.appendChild(theListIs); // testing porpoises.
     document.getElementById("wrapper").appendChild(theList);
 }
 
-function addMenuItems(theList, menuItems, parentNode, i) {
+function addMenuItems(theList, menuItems, parentNode, i, isSub) {
+//    alert(isSub);
     //    alert('potato');
     // menuItems is a JS/JSON object (technically JS as of writing this).
     // We need to read through and access its properties, adn add
@@ -55,15 +56,18 @@ function addMenuItems(theList, menuItems, parentNode, i) {
             // so test if it has the sub property first
             var subList = theItemObj["sub"];
             var hasSubl = theItemObj.hasOwnProperty("sub");
-            if(hasSubl) {
-                // if it has a sublist, then we need to handle that differently.
-                alert('theItemName ' + theItemName);
-                addMenuItems(theList, theItemObj, theItemName, i+1);
+            
+            // test if it's a subitem
+            if(isSub) {
+                alert(theItemName + ' qq');
+                // we're in a subitem!
                 
-            } else {
-                // test if it's undefined or not
-                if(theLink) {
-//                    alert('theLink ' + theLink);
+                if(theItemName === 'sub') {
+                    alert("rawr");
+                    
+                    // It's a subitem, so we want to make a link for the parent item,
+                    // and put that + the UL of the subitems into a list
+                    var subList = document.createElement("ul");
                     var a = document.createElement("a");
                     // So we also want the parent node item...
                     var linkText = document.createTextNode(parentNode);
@@ -76,9 +80,56 @@ function addMenuItems(theList, menuItems, parentNode, i) {
                     var listItem = document.createElement("li");
                     listItem.appendChild(a);
                     theList.appendChild(listItem);
+                    
+                    // now we want to append its children...
+                    addMenuItems(subList, theItemObj, theItemName, i, true);
                 }
-            addMenuItems(theList, theItemObj, theItemName, i);
+            } else {
+                // we aren't in a subitem
+                
+                if(hasSubl) {
+                    
+                    // It's a subitem, so we want to make a link for the parent item,
+                    // and put that + the UL of the subitems into a list
+                    var subList = document.createElement("ul");
+                    var a = document.createElement("a");
+                    // So we also want the parent node item...
+                    var linkText = document.createTextNode(parentNode);
+                    a.appendChild(linkText);
+                    a.href = menuItems[prop];
+                    // somehow for this we need to access the parent node
+                    a.title = menuItems[0];
+
+                    // then create a li item with link
+                    var listItem = document.createElement("li");
+                    listItem.appendChild(a);
+                    theList.appendChild(listItem);
+                    
+                // if it has a sublist, then we need to handle that differently.
+//                alert('theItemName ' + theItemName);
+                    addMenuItems(subList, theItemObj, theItemName, i+1, true);
+                
+                } else {
+                    // test if it's undefined or not
+                    if(theLink) {
+    //                    alert('theLink ' + theLink);
+                        var a = document.createElement("a");
+                        // So we also want the parent node item...
+                        var linkText = document.createTextNode(parentNode);
+                        a.appendChild(linkText);
+                        a.href = menuItems[prop];
+                        // somehow for this we need to access the parent node
+                        a.title = menuItems[0];
+
+                        // then create a li item with link
+                        var listItem = document.createElement("li");
+                        listItem.appendChild(a);
+                        theList.appendChild(listItem);
+                    }
+                addMenuItems(theList, theItemObj, theItemName, i, false);
+                }
             }
+            
             
         }
     }
